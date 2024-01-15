@@ -2,8 +2,10 @@ package belajargolangdatabase
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"testing"
+	"time"
 )
 
 // Ekeskusi Perintah SQL
@@ -49,4 +51,50 @@ func TestQuerySql(t *testing.T) {
 		fmt.Println("Name:", name)
 	}
 
+}
+
+// Tipe Data Column
+
+func TestQuerySqlComplex(t *testing.T) {
+
+	db := GetConnectionParseTime()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	script := "SELECT id, name, email, balance, rating, birth_date, married, create_at FROM customer"
+	rows, err := db.QueryContext(ctx, script)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id, name string
+		var email sql.NullString
+		var balance int32
+		var rating float64
+		var birthDate sql.NullTime
+		var createAt time.Time
+		var married bool
+		err := rows.Scan(&id, &name, &email, &balance, &rating, &birthDate, &married, &createAt)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("==========================================")
+		fmt.Println("Id:", id)
+		fmt.Println("Name:", name)
+		if email.Valid {
+			fmt.Println("Email:", email.String)
+		}
+		fmt.Println("Balance:", balance)
+		fmt.Println("Rating:", rating)
+		if birthDate.Valid {
+			fmt.Println("Birth Date:", birthDate.Time)
+		}
+		fmt.Println("Married:", married)
+		fmt.Println("Created At:", createAt)
+	}
+
+	defer rows.Close()
 }
