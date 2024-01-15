@@ -8,7 +8,7 @@ import (
 // Database Pooling
 
 func GetConnection() *sql.DB {
-	db, err := sql.Open("mysql", "root:Kuroshiel123A!@tcp(localhost:3306)/belajar_golang_database?parseTime=true")
+	db, err := sql.Open("mysql", "root:Kuroshiel123A!@tcp(localhost:3306)/belajar_golang_database")
 	if err != nil {
 		panic(err)
 	}
