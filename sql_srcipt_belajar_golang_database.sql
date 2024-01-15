@@ -55,4 +55,4 @@ CREATE TABLE comments (
 
 DESC comments;
 
-SELECT * FROM user;
+SELECT * FROM comments;
